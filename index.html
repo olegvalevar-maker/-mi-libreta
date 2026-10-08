@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>📖 Mi Libreta</title>
+
+<style>
+
+/* =========================================================
+   CONFIGURACIÓN GENERAL
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #d8c7a5;
+
+    font-family: "Comic Sans MS", Arial, sans-serif;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   PORTADA
+   ========================================================= */
+
+.portada {
+    width: 500px;
+    height: 650px;
+
+    background-image: url("Portada.png");
+    background-size: cover;
+    background-position: center;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.35);
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+
+.tituloPortada {
+    margin-top: 45px;
+
+    font-size: 38px;
+    font-weight: bold;
+
+    color: #3c2a18;
+
+    text-shadow:
+        2px 2px 2px rgba(255,255,255,0.7);
+}
+
+
+.subtituloPortada {
+    margin-top: 5px;
+
+    font-size: 20px;
+
+    color: #4c3824;
+}
+
+
+/* =========================================================
+   BOTÓN ENTRAR
+   ========================================================= */
+
+.botonEntrar {
+    position: absolute;
+
+    bottom: 50px;
+
+    width: 190px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        filter 0.15s ease;
+}
+
+
+.botonEntrar:hover {
+    transform: scale(1.06);
+    filter: brightness(1.08);
+}
+
+
+.botonEntrar:active {
+    transform: scale(0.96);
+}
+
+
+/* =========================================================
+   LIBRETA ABIERTA
+   ========================================================= */
+
+.libreta {
+    width: 900px;
+    height: 600px;
+
+    position: relative;
+
+    display: none;
+
+    background: #5d3a1e;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.4);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   DOS PÁGINAS
+   ========================================================= */
+
+.pagina {
+    position: absolute;
+
+    top: 0;
+
+    width: 50%;
+    height: 100%;
+
+    background-image: url("Hojas.png");
+
+    /*
+       Hojas.png = 784 × 1168
+
+       La imagen se adapta a cada página.
+    */
+
+    background-size: cover;
+    background-position: center;
+
+    overflow: hidden;
+}
+
+
+.paginaIzquierda {
+    left: 0;
+
+    border-right: 3px solid rgba(80,50,25,0.25);
+}
+
+
+.paginaDerecha {
+    right: 0;
+
+    border-left: 3px solid rgba(80,50,25,0.25);
+}
+
+
+/* =========================================================
+   FECHA
+   ========================================================= */
+
+.fecha {
+    position: absolute;
+
+    top: 25px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 85%;
+
+    text-align: center;
+
+    font-size: 16px;
+
+    color: #4a3827;
+
+    z-index: 4;
+}
+
+
+/* =========================================================
+   ÁREA PARA ESCRIBIR
+   ========================================================= */
+
+.escribir {
+    position: absolute;
+
+    top: 75px;
+    left: 35px;
+
+    width: calc(100% - 70px);
+    height: calc(100% - 125px);
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    resize: none;
+
+    overflow: hidden;
+
+    font-family: "Comic Sans MS", Arial, sans-serif;
+
+    font-size: 20px;
+
+    line-height: 1.55;
+
+    color: #30251c;
+
+    padding: 5px;
+
+    z-index: 5;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+.escribir::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+
+/* =========================================================
+   NÚMERO DE PÁGINA
+   ========================================================= */
+
+.numeroPagina {
+    position: absolute;
+
+    bottom: 15px;
+
+    width: 100%;
+
+    text-align: center;
+
+    font-size: 15px;
+
+    color: #5a4632;
+
+    z-index: 4;
+}
+
+
+/* =========================================================
+   BOTÓN CERRAR
+   ========================================================= */
+
+.botonCerrar {
+    position: absolute;
+
+    left: 50%;
+    bottom: 8px;
+
+    transform: translateX(-50%);
+
+    width: 75px;
+
+    cursor: pointer;
+
+    z-index: 20;
+
+    transition:
+        transform 0.15s ease,
+        filter 0.15s ease;
+}
+
+
+.botonCerrar:hover {
+    transform: translateX(-50%) scale(1.08);
+
+    filter: brightness(1.08);
+}
+
+
+.botonCerrar:active {
+    transform: translateX(-50%) scale(0.94);
+}
+
+
+/* =========================================================
+   BOTÓN ATRÁS
+   ========================================================= */
+
+.botonAtras {
+    position: absolute;
+
+    left: 15px;
+    bottom: 8px;
+
+    width: 75px;
+
+    cursor: pointer;
+
+    z-index: 20;
+
+    transition:
+        transform 0.15s ease,
+        filter 0.15s ease;
+}
+
+
+.botonAtras:hover {
+    transform: scale(1.08);
+
+    filter: brightness(1.08);
+}
+
+
+.botonAtras:active {
+    transform: scale(0.94);
+}
+
+
+/* =========================================================
+   BOTÓN CONTINUAR
+   ========================================================= */
+
+.botonContinuar {
+    position: absolute;
+
+    right: 15px;
+    bottom: 8px;
+
+    width: 75px;
+
+    cursor: pointer;
+
+    z-index: 20;
+
+    transition:
+        transform 0.15s ease,
+        filter 0.15s ease;
+}
+
+
+.botonContinuar:hover {
+    transform: scale(1.08);
+
+    filter: brightness(1.08);
+}
+
+
+.botonContinuar:active {
+    transform: scale(0.94);
+}
+
+
+/* =========================================================
+   LÍNEA DEL CENTRO
+   ========================================================= */
+
+.centroLibro {
+    position: absolute;
+
+    left: 50%;
+    top: 0;
+
+    transform: translateX(-50%);
+
+    width: 5px;
+    height: 100%;
+
+    background: rgba(70,45,25,0.18);
+
+    z-index: 10;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   SOMBRA DEL CENTRO
+   ========================================================= */
+
+.sombraCentro {
+    position: absolute;
+
+    left: 50%;
+    top: 0;
+
+    transform: translateX(-50%);
+
+    width: 45px;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            to right,
+            rgba(0,0,0,0.08),
+            rgba(0,0,0,0),
+            rgba(0,0,0,0.08)
+        );
+
+    z-index: 9;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   MENSAJE CUANDO NO HAY PÁGINA
+   ========================================================= */
+
+.mensajeFin {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background: rgba(255,255,255,0.92);
+
+    padding: 20px 30px;
+
+    border-radius: 15px;
+
+    font-size: 22px;
+
+    color: #3c2a18;
+
+    text-align: center;
+
+    z-index: 50;
+
+    display: none;
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,0.25);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 950px) {
+
+    .libreta {
+        width: 90vw;
+        height: 60vw;
+
+        max-height: 600px;
+    }
+
+    .escribir {
+        font-size: 17px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .portada {
+        width: 90vw;
+        height: 117vw;
+    }
+
+    .libreta {
+        width: 96vw;
+        height: 64vw;
+    }
+
+    .escribir {
+        font-size: 14px;
+
+        left: 20px;
+
+        width: calc(100% - 40px);
+    }
+
+    .fecha {
+        font-size: 11px;
+    }
+
+    .numeroPagina {
+        font-size: 11px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     PORTADA
+     ===================================================== -->
+
+<div class="portada" id="portada">
+
+    <div class="tituloPortada">
+        📖 Mi Libreta
+    </div>
+
+    <div class="subtituloPortada">
+        Mis cosas por hacer
+    </div>
+
+    <img
+        src="Entrar.png"
+        class="botonEntrar"
+        id="entrar"
+        alt="Entrar"
+        onclick="entrarAlLibro()"
+    >
+
+</div>
+
+
+<!-- =====================================================
+     LIBRETA
+     ===================================================== -->
+
+<div class="libreta" id="libreta">
+
+
+    <!-- ================================================
+         PÁGINA IZQUIERDA
+         ================================================ -->
+
+    <div class="pagina paginaIzquierda">
+
+        <div
+            class="fecha"
+            id="fechaIzquierda">
+        </div>
+
+
+        <textarea
+            class="escribir"
+            id="textoIzquierda"
+            placeholder=""
+            oninput="manejarEscritura('izquierda')"
+        ></textarea>
+
+
+        <div
+            class="numeroPagina"
+            id="numeroIzquierda">
+        </div>
+
+    </div>
+
+
+    <!-- ================================================
+         PÁGINA DERECHA
+         ================================================ -->
+
+    <div class="pagina paginaDerecha">
+
+        <div
+            class="fecha"
+            id="fechaDerecha">
+        </div>
+
+
+        <textarea
+            class="escribir"
+            id="textoDerecha"
+            placeholder=""
+            oninput="manejarEscritura('derecha')"
+        ></textarea>
+
+
+        <div
+            class="numeroPagina"
+            id="numeroDerecha">
+        </div>
+
+    </div>
+
+
+    <!-- ================================================
+         CENTRO DEL LIBRO
+         ================================================ -->
+
+    <div class="sombraCentro"></div>
+
+    <div class="centroLibro"></div>
+
+
+    <!-- ================================================
+         BOTÓN ATRÁS
+         ================================================ -->
+
+    <img
+        src="Atras.png"
+        class="botonAtras"
+        id="atras"
+        alt="Atrás"
+        onclick="paginaAnterior()"
+    >
+
+
+    <!-- ================================================
+         BOTÓN CERRAR
+         ================================================ -->
+
+    <img
+        src="Cerrar.png"
+        class="botonCerrar"
+        id="cerrar"
+        alt="Cerrar"
+        onclick="cerrarLibro()"
+    >
+
+
+    <!-- ================================================
+         BOTÓN CONTINUAR
+         ================================================ -->
+
+    <img
+        src="Continuar.png"
+        class="botonContinuar"
+        id="continuar"
+        alt="Continuar"
+        onclick="siguientePagina()"
+    >
+
+
+    <!-- ================================================
+         MENSAJE FINAL
+         ================================================ -->
+
+    <div
+        class="mensajeFin"
+        id="mensajeFin">
+
+        📖 ¡Llegaste al final de la libreta!
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
+let paginaActual = 1;
+
+
+/*
+   Cantidad máxima de páginas.
+
+   Puedes cambiar este número cuando quieras.
+
+   100 significa:
+
+   1 - 2
+   3 - 4
+   5 - 6
+   ...
+   99 - 100
+*/
+
+const MAX_PAGINAS = 100;
+
+
+/* =========================================================
+   ENTRAR AL LIBRO
+   ========================================================= */
+
+function entrarAlLibro() {
+
+    document.getElementById("portada").style.display = "none";
+
+    document.getElementById("libreta").style.display = "block";
+
+    paginaActual = 1;
+
+    actualizarPaginas();
+
+}
+
+
+/* =========================================================
+   CERRAR EL LIBRO
+   ========================================================= */
+
+function cerrarLibro() {
+
+    guardarTexto();
+
+    document.getElementById("libreta").style.display = "none";
+
+    document.getElementById("portada").style.display = "flex";
+
+}
+
+
+/* =========================================================
+   OBTENER FECHA ACTUAL
+   ========================================================= */
+
+function obtenerFecha() {
+
+    const ahora = new Date();
+
+    const dia = String(
+        ahora.getDate()
+    ).padStart(2, "0");
+
+    const mes = String(
+        ahora.getMonth() + 1
+    ).padStart(2, "0");
+
+    const año = ahora.getFullYear();
+
+    return `${dia}/${mes}/${año}`;
+
+}
+
+
+/* =========================================================
+   GUARDAR TEXTO
+   ========================================================= */
+
+function guardarTexto() {
+
+    const textoIzquierda =
+        document.getElementById(
+            "textoIzquierda"
+        ).value;
+
+    const textoDerecha =
+        document.getElementById(
+            "textoDerecha"
+        ).value;
+
+
+    localStorage.setItem(
+        "libreta_pagina_" +
+        paginaActual,
+        textoIzquierda
+    );
+
+
+    localStorage.setItem(
+        "libreta_pagina_" +
+        (paginaActual + 1),
+        textoDerecha
+    );
+
+
+    /*
+       Guardar fecha de la página izquierda
+    */
+
+    if (
+        textoIzquierda.trim() !== "" &&
+        !localStorage.getItem(
+            "fecha_pagina_" + paginaActual
+        )
+    ) {
+
+        localStorage.setItem(
+            "fecha_pagina_" + paginaActual,
+            obtenerFecha()
+        );
+
+    }
+
+
+    /*
+       Guardar fecha de la página derecha
+    */
+
+    if (
+        textoDerecha.trim() !== "" &&
+        !localStorage.getItem(
+            "fecha_pagina_" +
+            (paginaActual + 1)
+        )
+    ) {
+
+        localStorage.setItem(
+            "fecha_pagina_" +
+            (paginaActual + 1),
+            obtenerFecha()
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CARGAR TEXTO
+   ========================================================= */
+
+function cargarTexto() {
+
+    const izquierda =
+        localStorage.getItem(
+            "libreta_pagina_" +
+            paginaActual
+        ) || "";
+
+
+    const derecha =
+        localStorage.getItem(
+            "libreta_pagina_" +
+            (paginaActual + 1)
+        ) || "";
+
+
+    document.getElementById(
+        "textoIzquierda"
+    ).value = izquierda;
+
+
+    document.getElementById(
+        "textoDerecha"
+    ).value = derecha;
+
+
+    /*
+       Cargar fechas
+    */
+
+    const fechaIzquierda =
+        localStorage.getItem(
+            "fecha_pagina_" +
+            paginaActual
+        ) || "";
+
+
+    const fechaDerecha =
+        localStorage.getItem(
+            "fecha_pagina_" +
+            (paginaActual + 1)
+        ) || "";
+
+
+    document.getElementById(
+        "fechaIzquierda"
+    ).textContent = fechaIzquierda;
+
+
+    document.getElementById(
+        "fechaDerecha"
+    ).textContent = fechaDerecha;
+
+}
+
+
+/* =========================================================
+   ACTUALIZAR PÁGINAS
+   ========================================================= */
+
+function actualizarPaginas() {
+
+    document.getElementById(
+        "numeroIzquierda"
+    ).textContent =
+        paginaActual;
+
+
+    document.getElementById(
+        "numeroDerecha"
+    ).textContent =
+        paginaActual + 1;
+
+
+    cargarTexto();
+
+
+    /*
+       Después de cargar el texto,
+       colocamos el cursor al final.
+    */
+
+    const izquierda =
+        document.getElementById(
+            "textoIzquierda"
+        );
+
+    const derecha =
+        document.getElementById(
+            "textoDerecha"
+        );
+
+
+    izquierda.scrollTop =
+        izquierda.scrollHeight;
+
+
+    derecha.scrollTop =
+        derecha.scrollHeight;
+
+}
+
+
+/* =========================================================
+   SIGUIENTE DOBLE PÁGINA
+   ========================================================= */
+
+function siguientePagina() {
+
+    guardarTexto();
+
+
+    if (
+        paginaActual + 2 <= MAX_PAGINAS
+    ) {
+
+        paginaActual += 2;
+
+        actualizarPaginas();
+
+        /*
+           Colocar el cursor en la nueva
+           página izquierda.
+        */
+
+        setTimeout(function() {
+
+            document.getElementById(
+                "textoIzquierda"
+            ).focus();
+
+        }, 100);
+
+    }
+
+    else {
+
+        mostrarMensajeFinal();
+
+    }
+
+}
+
+
+/* =========================================================
+   PÁGINA ANTERIOR
+   ========================================================= */
+
+function paginaAnterior() {
+
+    guardarTexto();
+
+
+    if (paginaActual > 1) {
+
+        paginaActual -= 2;
+
+        actualizarPaginas();
+
+    }
+
+}
+
+
+/* =========================================================
+   MOSTRAR MENSAJE FINAL
+   ========================================================= */
+
+function mostrarMensajeFinal() {
+
+    const mensaje =
+        document.getElementById(
+            "mensajeFin"
+        );
+
+
+    mensaje.style.display = "block";
+
+
+    setTimeout(function() {
+
+        mensaje.style.display = "none";
+
+    }, 2500);
+
+}
+
+
+/* =========================================================
+   COMPROBAR SI UNA PÁGINA ESTÁ LLENA
+   ========================================================= */
+
+function paginaEstaLlena(textarea) {
+
+    /*
+       scrollHeight = todo el contenido
+       clientHeight = espacio disponible
+
+       Si el contenido necesita más espacio
+       significa que la página está llena.
+    */
+
+    return (
+        textarea.scrollHeight >
+        textarea.clientHeight + 2
+    );
+
+}
+
+
+/* =========================================================
+   PASAR TEXTO SOBRANTE A LA SIGUIENTE PÁGINA
+   ========================================================= */
+
+function pasarTextoSobrante(
+    textareaOrigen,
+    textareaDestino
+) {
+
+    let textoSobrante = "";
+
+
+    /*
+       Mientras la página siga teniendo
+       demasiado texto...
+
+       Sacamos el último carácter.
+    */
+
+    while (
+        paginaEstaLlena(textareaOrigen) &&
+        textareaOrigen.value.length > 0
+    ) {
+
+        const ultimoCaracter =
+            textareaOrigen.value.slice(-1);
+
+
+        textareaOrigen.value =
+            textareaOrigen.value.slice(0, -1);
+
+
+        textoSobrante =
+            ultimoCaracter +
+            textoSobrante;
+
+    }
+
+
+    /*
+       Agregamos lo que sobró
+       a la siguiente página.
+    */
+
+    if (textoSobrante.length > 0) {
+
+        textareaDestino.value =
+            textoSobrante +
+            textareaDestino.value;
+
+    }
+
+}
+
+
+/* =========================================================
+   MANEJAR ESCRITURA
+   ========================================================= */
+
+function manejarEscritura(lado) {
+
+    const izquierda =
+        document.getElementById(
+            "textoIzquierda"
+        );
+
+
+    const derecha =
+        document.getElementById(
+            "textoDerecha"
+        );
+
+
+    /*
+       Guardar primero.
+    */
+
+    guardarTexto();
+
+
+    /* =====================================================
+       SI SE LLENA LA PÁGINA IZQUIERDA
+       ===================================================== */
+
+    if (
+        lado === "izquierda" &&
+        paginaEstaLlena(izquierda)
+    ) {
+
+        /*
+           Pasar lo que ya no cabe
+           a la página derecha.
+        */
+
+        pasarTextoSobrante(
+            izquierda,
+            derecha
+        );
+
+
+        /*
+           Guardar las dos páginas.
+        */
+
+        guardarTexto();
+
+
+        /*
+           Poner el cursor en la página derecha.
+        */
+
+        derecha.focus();
+
+
+        derecha.selectionStart =
+            derecha.value.length;
+
+        derecha.selectionEnd =
+            derecha.value.length;
+
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       SI SE LLENA LA PÁGINA DERECHA
+       ===================================================== */
+
+    if (
+        lado === "derecha" &&
+        paginaEstaLlena(derecha)
+    ) {
+
+        /*
+           Guardamos temporalmente
+           lo que sobra.
+        */
+
+        let textoSobrante = "";
+
+
+        while (
+            paginaEstaLlena(derecha) &&
+            derecha.value.length > 0
+        ) {
+
+            const ultimoCaracter =
+                derecha.value.slice(-1);
+
+
+            derecha.value =
+                derecha.value.slice(0, -1);
+
+
+            textoSobrante =
+                ultimoCaracter +
+                textoSobrante;
+
+        }
+
+
+        /*
+           Guardamos la página derecha.
+        */
+
+        guardarTexto();
+
+
+        /*
+           Pasamos a la siguiente doble página.
+        */
+
+        if (
+            paginaActual + 2 <= MAX_PAGINAS
+        ) {
+
+            paginaActual += 2;
+
+            actualizarPaginas();
+
+
+            /*
+               Ponemos el texto sobrante
+               en la nueva página izquierda.
+            */
+
+            const nuevaIzquierda =
+                document.getElementById(
+                    "textoIzquierda"
+                );
+
+
+            nuevaIzquierda.value =
+                textoSobrante +
+                nuevaIzquierda.value;
+
+
+            /*
+               Guardamos.
+            */
+
+            guardarTexto();
+
+
+            /*
+               Ponemos el cursor al final.
+            */
+
+            nuevaIzquierda.focus();
+
+
+            nuevaIzquierda.selectionStart =
+                nuevaIzquierda.value.length;
+
+            nuevaIzquierda.selectionEnd =
+                nuevaIzquierda.value.length;
+
+        }
+
+        else {
+
+            mostrarMensajeFinal();
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   GUARDAR AUTOMÁTICAMENTE CADA VEZ QUE SE ESCRIBE
+   ========================================================= */
+
+document
+    .getElementById("textoIzquierda")
+    .addEventListener(
+        "input",
+        function() {
+
+            guardarTexto();
+
+        }
+    );
+
+
+document
+    .getElementById("textoDerecha")
+    .addEventListener(
+        "input",
+        function() {
+
+            guardarTexto();
+
+        }
+    );
+
+
+/* =========================================================
+   GUARDAR ANTES DE CERRAR LA PÁGINA
+   ========================================================= */
+
+window.addEventListener(
+    "beforeunload",
+    function() {
+
+        guardarTexto();
+
+    }
+);
+
+
+/* =========================================================
+   INICIAR
+   ========================================================= */
+
+actualizarPaginas();
+
+</script>
+
+</body>
+</html>
